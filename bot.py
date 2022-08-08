@@ -32,7 +32,7 @@ def filter_list_by_type(outputlist, type):
 
 bot = lightbulb.BotApp(
     token=os.environ.get("BOT_TOKEN"), 
-    default_enabled_guilds=(1005819910724780092)
+    default_enabled_guilds=(1005819910724780092, 970723880857649213)
     )
 
 @bot.listen(hikari.StartedEvent)
