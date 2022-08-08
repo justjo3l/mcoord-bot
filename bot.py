@@ -169,17 +169,22 @@ async def delete(context):
     for key, val in data.items():
         if (int(val['id']) == int(context.options.id)):
             elementkey = str(key)
+    if elementkey == "":
+        await context.respond(f"No location with id {context.options.id} found!")
+        return
+    else:
+        await context.respond(f"'Location {context.options.id}' deleted!")
     ref.child(elementkey).delete()
     data = ref.order_by_key().get()
+    refcount = db.reference(f"/{guildId}/")
+    count = int(refcount.child('count').get())
+    refcount.child('count').set(str(count - 1))
     if data is not None:
         for key, val in data.items():
             if (int(val['id']) > int(context.options.id)):
                 id = int(ref.child(key).child('id').get())
                 ref.child(key).child('id').set(str(id - 1))
-    refcount = db.reference(f"/{guildId}/")
-    count = int(refcount.child('count').get())
-    refcount.child('count').set(str(count - 1))
     print(f"{context.options.id} was removed")
-    await context.respond("Location was deleted!")
+    
 
 bot.run()
